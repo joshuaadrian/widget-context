@@ -38,7 +38,7 @@ if ( !function_exists('_log') ) {
 // DEFINE PLUGIN BASE
 define( 'WIDGET_CONTEXT_PATH', plugin_dir_path(__FILE__) );
 // DEFINE PLUGIN URL
-define( 'WIDGET_CONTEXT_URL_PATH', plugins_url() . '/widget-context' );
+define( 'WIDGET_CONTEXT_URL_PATH', plugins_url() . '/widget-context-joshua-adrian' );
 // DEFINE PLUGIN ID
 define( 'WIDGET_CONTEXT_PLUGINOPTIONS_ID', 'widget-context' );
 // DEFINE PLUGIN NICK
@@ -68,7 +68,7 @@ if ( is_admin() ) {
 
   // LOAD MARKDOWN CLASS
 	if ( !function_exists('markdown') ) {
-		require_once WIDGET_CONTEXT_PATH . 'inc/libs/php-markdown/markdown.php';
+		require_once WIDGET_CONTEXT_PATH . 'assets/libs/php-markdown/markdown.php';
 	}
 
 }
@@ -294,7 +294,7 @@ function widget_context_validate_options( $input ) {
 
 function widget_context_plugin_action_links( $links, $file ) {
 
-	$tmp_id = WIDGET_CONTEXT_PLUGINOPTIONS_ID . '/widget-context.php';
+	$tmp_id = WIDGET_CONTEXT_PLUGINOPTIONS_ID . '/widget-context-joshua-adrian.php';
 
 	if ( $file == $tmp_id ) {
 
