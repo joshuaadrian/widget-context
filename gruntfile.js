@@ -22,8 +22,8 @@ module.exports = function(grunt) {
 
         uglify: {
             build: {
-                src: 'assets/js/build/widget-context.js',
-                dest: 'assets/js/build/widget-context.min.js'
+                src: 'assets/js/widget-context.js',
+                dest: 'assets/js/widget-context.min.js'
             }
         },
 

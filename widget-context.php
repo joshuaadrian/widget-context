@@ -257,7 +257,7 @@ function widget_context_render_form() {
 		<?php endif; ?>
 
 		<div class="credits">
-			<p><?php echo $widget_context_data['Name']; ?> Plugin | Version <?php echo $widget_context_data['Version']; ?> | <a href="<?php echo $widget_context_data['PluginURI']; ?>">Plugin Website</a> | Author <a href="<?php echo $widget_context_data['AuthorURI']; ?>"><?php echo $widget_context_data['Author']; ?></a> | <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/" style="position:relative; top:3px; margin-left:3px"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/80x15.png" /></a><a href="http://joshuaadrian.com" target="_blank" class="alignright"><img src="<?php echo plugins_url( 'images/ja-logo.png' , __FILE__ ); ?>" alt="Joshua Adrian" /></a></p>
+			<p><?php echo $widget_context_data['Name']; ?> Plugin | Version <?php echo $widget_context_data['Version']; ?> | <a href="<?php echo $widget_context_data['PluginURI']; ?>">Plugin Website</a> | Author <a href="<?php echo $widget_context_data['AuthorURI']; ?>"><?php echo $widget_context_data['Author']; ?></a> | <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/" style="position:relative; top:3px; margin-left:3px"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/80x15.png" /></a><a href="http://joshuaadrian.com" target="_blank" class="alignright"><img src="<?php echo plugins_url( 'assets/img/ja-logo.png' , __FILE__ ); ?>" alt="Joshua Adrian" /></a></p>
 		</div>
 
 	</div>
