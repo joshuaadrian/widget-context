@@ -133,7 +133,7 @@ function widget_context_init() {
 
 // Add menu page
 function widget_context_add_options_page() {
-	add_options_page('Widget Context', WIDGET_CONTEXT_PLUGINOPTIONS_NICK, 'manage_options', WIDGET_CONTEXT_PLUGINOPTIONS_ID, 'widget_context_render_form');
+	add_options_page('WP Widget Context', WIDGET_CONTEXT_PLUGINOPTIONS_NICK, 'manage_options', WIDGET_CONTEXT_PLUGINOPTIONS_ID, 'widget_context_render_form');
 }
 
 // ------------------------------------------------------------------------------
