@@ -312,9 +312,9 @@ function widget_context_plugin_action_links( $links, $file ) {
 /************************************************************************/
 
 function widget_context_enqueue() {
-  wp_register_style( 'widget_context_css', plugins_url('/css/widget-context.css', __FILE__), false, '1.0.0' );
+  wp_register_style( 'widget_context_css', plugins_url('/assets/css/widget-context.css', __FILE__), false, '1.0.0' );
   wp_enqueue_style( 'widget_context_css' );
-  wp_enqueue_script( 'widget_context_script', plugins_url('/js/widget-context.min.js', __FILE__), array('jquery') );
+  wp_enqueue_script( 'widget_context_script', plugins_url('/assets/js/widget-context.min.js', __FILE__), array('jquery') );
 }
 
 add_action('admin_enqueue_scripts', 'widget_context_enqueue');
@@ -323,6 +323,6 @@ add_action('admin_enqueue_scripts', 'widget_context_enqueue');
 /* INCLUDES
 /************************************************************************/
 
-require WIDGET_CONTEXT_PATH . 'inc/widget-context-functions.php';
+require WIDGET_CONTEXT_PATH . 'assets/inc/widget-context-functions.php';
 
 ?>

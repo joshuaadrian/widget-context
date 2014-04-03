@@ -5,18 +5,18 @@
 /************************************************************************/
 
 if ( is_admin() ) {
-  add_action( 'sidebar_admin_setup', 'ks_expand_control' );
-  add_filter( 'widget_update_callback', 'ks_ajax_update_callback', 10, 3); 
+  add_action( 'sidebar_admin_setup', 'widget_context_expand_control' );
+  add_filter( 'widget_update_callback', 'widget_context_ajax_update_callback', 10, 3); 
 } else {
-  add_filter( 'widget_display_callback', 'ks_filter_sidebars_widgets', 11,3);
-  add_filter( 'sidebars_widgets', 'ks_maybe_unset_widget', 10 );
+  add_filter( 'widget_display_callback', 'widget_context_filter_sidebars_widgets', 11,3);
+  add_filter( 'sidebars_widgets', 'widget_context_maybe_unset_widget', 10 );
 }
 
 $home_page_slug = get_option('page_on_front') ? get_post( get_option('page_on_front') )->post_name : '';
 
-function ks_maybe_unset_widget( $sidebars_widgets ) {
+function widget_context_maybe_unset_widget( $sidebars_widgets ) {
 
-  global $ks_options, $home_page_slug;
+  global $widget_context_options, $home_page_slug;
 
   foreach( $sidebars_widgets as $widget_area => $widget_list ) {
 
@@ -27,9 +27,9 @@ function ks_maybe_unset_widget( $sidebars_widgets ) {
 
       $visible = false;
 
-      if ( isset( $ks_options['widget_contexts'][$widget_id] ) ) {
+      if ( isset( $widget_context_options['widget_contexts'][$widget_id] ) ) {
 
-        foreach ( $ks_options['widget_contexts'][$widget_id] as $value ) {
+        foreach ( $widget_context_options['widget_contexts'][$widget_id] as $value ) {
             
           if ( ( isset( $_SERVER['REDIRECT_URL'] ) && strpos( $_SERVER['REDIRECT_URL'], $value ) ) || ( isset( $_SERVER['REQUEST_URI'] ) && strpos( $_SERVER['REQUEST_URI'], $value ) ) || ( isset( $_SERVER['REQUEST_URI'] ) && $_SERVER['REQUEST_URI'] == '/' && $value == $home_page_slug ) || ( isset( $_SERVER['REQUEST_URL'] ) && $_SERVER['REQUEST_URL'] == '/' && $value == $home_page_slug ) ) {
 
@@ -71,43 +71,43 @@ function ks_maybe_unset_widget( $sidebars_widgets ) {
 
 }
 
-function ks_filter_sidebars_widgets( $instance, $widget, $args ) {
+function widget_context_filter_sidebars_widgets( $instance, $widget, $args ) {
 
-  global $post, $ks_options;
+  global $post, $widget_context_options;
 
-  $ks_value = isset( $ks_options['widget_contexts'][$widget->id] ) ? $ks_options['widget_contexts'][$widget->id] : '';
+  $widget_context_value = isset( $widget_context_options['widget_contexts'][$widget->id] ) ? $widget_context_options['widget_contexts'][$widget->id] : '';
 
-  if ( is_array( $ks_value ) && in_array( $post->post_name, $ks_value ) ) {
+  if ( is_array( $widget_context_value ) && in_array( $post->post_name, $widget_context_value ) ) {
     return $instance;
   }
 
 }
 
-function ks_expand_control() {
+function widget_context_expand_control() {
 
-  global $wp_registered_widgets, $wp_registered_widget_controls, $ks_options;
+  global $wp_registered_widgets, $wp_registered_widget_controls, $widget_context_options;
 
   foreach ( $wp_registered_widgets as $id => $widget ) {
 
     if ( !$wp_registered_widget_controls[$id] ) {
-      wp_register_widget_control( $id,$widget['name'], 'ks_empty_control' );
+      wp_register_widget_control( $id,$widget['name'], 'widget_context_empty_control' );
     }
 
 		$wp_registered_widget_controls[$id]['callback_wl_redirect'] = $wp_registered_widget_controls[$id]['callback'];
-		$wp_registered_widget_controls[$id]['callback']             = 'ks_extra_control';
+		$wp_registered_widget_controls[$id]['callback']             = 'widget_context_extra_control';
     array_push( $wp_registered_widget_controls[$id]['params'], $id );   
 
   }
 
 }
 
-// added to widget functionality in 'ks_expand_control' (above)
-function ks_empty_control() {}
+// added to widget functionality in 'widget_context_expand_control' (above)
+function widget_context_empty_control() {}
 
-// added to widget functionality in 'ks_expand_control' (above)
-function ks_extra_control() {   
+// added to widget functionality in 'widget_context_expand_control' (above)
+function widget_context_extra_control() {   
 
-  global $wp_registered_widget_controls, $ks_options;
+  global $wp_registered_widget_controls, $widget_context_options;
 
 	$output   = '';
 	$params   = func_get_args();
@@ -125,7 +125,7 @@ function ks_extra_control() {
     call_user_func_array( $callback, $params );
   }
 
-  $value = !empty( $ks_options['widget_contexts'][$id] ) ? $ks_options['widget_contexts'][$id] : 'Nothing';
+  $value = !empty( $widget_context_options['widget_contexts'][$id] ) ? $widget_context_options['widget_contexts'][$id] : 'Nothing';
 
   // dealing with multiple widgets - get the number. if -1 this is the 'template' for the admin interface
   $number = $params[0]['number'];
@@ -154,7 +154,7 @@ function ks_extra_control() {
 
     foreach ( $pages as $page ) {
 
-      $checked = isset( $ks_options['widget_contexts'][$id_disp] ) && in_array( $page->post_name, $ks_options['widget_contexts'][$id_disp] ) ? 'checked' : '';
+      $checked = isset( $widget_context_options['widget_contexts'][$id_disp] ) && in_array( $page->post_name, $widget_context_options['widget_contexts'][$id_disp] ) ? 'checked' : '';
       $output .= "<div class='widget-context-input'><input type='checkbox' value='$page->post_name' name='" . $id_disp . "-context[]' id='" .$id_disp . "-context' $checked /> <label for='" .$id_disp . "-context'>$page->post_title</label></div>";
 
     }
@@ -165,7 +165,7 @@ function ks_extra_control() {
 
 	foreach ( $page_types as $key => $page_type ) {
 
-    $checked = isset( $ks_options['widget_contexts'][$id_disp] ) && in_array( $key, $ks_options['widget_contexts'][$id_disp] ) ? 'checked' : '';
+    $checked = isset( $widget_context_options['widget_contexts'][$id_disp] ) && in_array( $key, $widget_context_options['widget_contexts'][$id_disp] ) ? 'checked' : '';
     $output .= "<div class='widget-context-input'><input type='checkbox' value='$key' name='" . $id_disp . "-context[]' id='" .$id_disp . "-context' $checked /> <label for='" .$id_disp . "-context'>$page_type</label></div>";
 
   }
@@ -174,15 +174,15 @@ function ks_extra_control() {
 
 }
 
-function ks_ajax_update_callback( $instance, $new_instance, $this_widget ) {
+function widget_context_ajax_update_callback( $instance, $new_instance, $this_widget ) {
 
-  global $ks_options;
+  global $widget_context_options;
 
   $widget_id = $_POST['id_base'] . '-' . $_POST['widget_number'];
 
   if ( isset( $_POST[ $widget_id . '-context'] ) ) {
-      $ks_options['widget_contexts'][$widget_id] = is_array( $_POST[$widget_id.'-context'] ) ? $_POST[$widget_id.'-context'] : $_POST[$widget_id.'-context'];
-      update_option('ks_options', $ks_options);
+      $widget_context_options['widget_contexts'][$widget_id] = is_array( $_POST[$widget_id.'-context'] ) ? $_POST[$widget_id.'-context'] : $_POST[$widget_id.'-context'];
+      update_option('widget_context_options', $widget_context_options);
   }
 
   return $instance;
