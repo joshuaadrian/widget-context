@@ -5,7 +5,7 @@ Plugin Name: Widget Context
 Plugin URI: https://github.com/joshuaadrian/widget-context
 Description: Assign sidebar widgets to specific pages or page types.
 Author: Joshua Adrian
-Version: 0.1.0
+Version: 1.1.0
 Author URI: https://github.com/joshuaadrian/
 */
 
