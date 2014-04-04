@@ -14,7 +14,7 @@ if ( is_admin() ) {
 
 $home_page_slug = get_option('page_on_front') ? get_post( get_option('page_on_front') )->post_name : '';
 
-function ks_maybe_unset_widget( $sidebars_widgets ) {
+function widget_context_maybe_unset_widget( $sidebars_widgets ) {
 
   global $ks_options, $home_page_slug;
 
