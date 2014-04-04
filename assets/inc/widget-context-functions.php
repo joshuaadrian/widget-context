@@ -14,9 +14,9 @@ if ( is_admin() ) {
 
 $home_page_slug = get_option('page_on_front') ? get_post( get_option('page_on_front') )->post_name : '';
 
-function widget_context_maybe_unset_widget( $sidebars_widgets ) {
+function ks_maybe_unset_widget( $sidebars_widgets ) {
 
-  global $widget_context_options, $home_page_slug;
+  global $ks_options, $home_page_slug;
 
   foreach( $sidebars_widgets as $widget_area => $widget_list ) {
 
@@ -27,29 +27,51 @@ function widget_context_maybe_unset_widget( $sidebars_widgets ) {
 
       $visible = false;
 
-      if ( isset( $widget_context_options['widget_contexts'][$widget_id] ) ) {
+      if ( isset( $ks_options['widget_contexts'][$widget_id] ) ) {
 
-        foreach ( $widget_context_options['widget_contexts'][$widget_id] as $value ) {
-            
-          if ( ( isset( $_SERVER['REDIRECT_URL'] ) && strpos( $_SERVER['REDIRECT_URL'], $value ) ) || ( isset( $_SERVER['REQUEST_URI'] ) && strpos( $_SERVER['REQUEST_URI'], $value ) ) || ( isset( $_SERVER['REQUEST_URI'] ) && $_SERVER['REQUEST_URI'] == '/' && $value == $home_page_slug ) || ( isset( $_SERVER['REQUEST_URL'] ) && $_SERVER['REQUEST_URL'] == '/' && $value == $home_page_slug ) ) {
+        foreach ( $ks_options['widget_contexts'][$widget_id] as $value ) {
+
+          $redirect_url_base = isset( $_SERVER['REDIRECT_URL'] ) ? $_SERVER['REDIRECT_URL'] : '';
+          $redirect_url      = isset( $_SERVER['REDIRECT_URL'] ) && !empty( $_SERVER['REDIRECT_URL'] ) ? explode( '/', $_SERVER['REDIRECT_URL'] ) : '';
+          $redirect_url      = is_array( $redirect_url ) ? $redirect_url[ count( $redirect_url ) - 2 ] : '';
+          $redirect_uri_base = isset( $_SERVER['REDIRECT_URI'] ) ? $_SERVER['REDIRECT_URI'] : '';
+          $redirect_uri      = isset( $_SERVER['REDIRECT_URI'] ) && !empty( $_SERVER['REDIRECT_URI'] ) ? explode( '/', $_SERVER['REDIRECT_URI'] ) : '';
+          $redirect_uri      = is_array( $redirect_uri ) ? $redirect_uri[ count( $redirect_uri ) - 2 ] : '';
+
+          _log('------- HOME PAGE SLUG --------');
+          _log( $home_page_slug );
+          _log('------- WIDGET NAME --------');
+          _log( $value );
+          _log('------- REDIRECT URL BASE --------');
+          _log( $redirect_url_base );
+          _log('------- REDIRECT URI BASE --------');
+          _log( $redirect_uri_base );
+          _log('------- REDIRECT URL --------');
+          _log( $redirect_url );
+          _log('------- REDIRECT URI --------');
+          _log( $redirect_uri );
+          _log('------- WIDGET CONTEXT VALUE --------');
+          _log( $value );
+          
+          if ( $redirect_url == $value || $redirect_uri == $value || ( $redirect_uri_base == '' && $value == $home_page_slug ) || ( $redirect_url_base == '' && $value == $home_page_slug ) ) {
 
             $visible = true;
 
           } else if ( is_single() && $value == 'is_single' ) {
 
-          	$visible = true;
+            $visible = true;
 
           } else if ( is_category() && $value == 'is_category' ) {
 
-          	$visible = true;
+            $visible = true;
 
           } else if ( is_archive() && $value == 'is_archive' ) {
 
-          	$visible = true;
+            $visible = true;
 
           } else if ( is_tax() && $value == 'is_taxonomy' ) {
 
-          	$visible = true;
+            $visible = true;
 
           }
 
