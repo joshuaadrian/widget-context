@@ -53,7 +53,7 @@ function widget_context_maybe_unset_widget( $sidebars_widgets ) {
           _log('------- WIDGET CONTEXT VALUE --------');
           _log( $value );
           
-          if ( $redirect_url == $value || $redirect_uri == $value || ( $redirect_uri_base == '' && $value == $home_page_slug ) || ( $redirect_url_base == '' && $value == $home_page_slug ) ) {
+          if ( $redirect_url == $value || $redirect_uri == $value || ( $redirect_uri_base == '' && $redirect_url_base == '' && $value == $home_page_slug ) ) {
 
             $visible = true;
 
